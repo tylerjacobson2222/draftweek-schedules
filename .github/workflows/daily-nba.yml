@@ -10,14 +10,22 @@ jobs:
   call-functions:
     runs-on: ubuntu-latest
     steps:
+      # --- Step 1: Pull NBA games (today + tomorrow) ---
       - name: Call pull_nba_games
         run: |
+          echo "Calling pull_nba_games..."
           curl -X GET \
           -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
           https://deqmlxmmruiuitwpiyud.supabase.co/functions/v1/pull_nba_games
+          
+      # --- Step 2: Wait 15 seconds to ensure games are inserted ---
+      - name: Wait 15 seconds
+        run: sleep 15
 
+      # --- Step 3: Pull Fantasy Stats for yesterday's games ---
       - name: Call fetch_fantasy_stats
         run: |
+          echo "Calling fetch-fantasy-stats..."
           curl -X GET \
           -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
           https://deqmlxmmruiuitwpiyud.supabase.co/functions/v1/fetch-fantasy-stats
