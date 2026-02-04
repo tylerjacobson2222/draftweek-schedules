@@ -1,0 +1,18 @@
+name: Live NBA Fantasy Scores
+
+on:
+  schedule:
+    # every 5 minutes, 24/7
+    - cron: "*/5 * * * *"
+  workflow_dispatch: # allows manual run anytime
+
+jobs:
+  live-fantasy-scores:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update Live Fantasy Scores
+        run: |
+          echo "Calling update_live_fantasy_scores..."
+          curl -X GET \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+          https://deqmlxmmruiuitwpiyud.supabase.co/functions/v1/update_live_fantasy_scores
