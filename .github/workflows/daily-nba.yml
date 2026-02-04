@@ -1,0 +1,17 @@
+name: Daily NBA Pull
+
+on:
+  schedule:
+    # 0 6 * * * = 6 AM UTC → 1 AM ET
+    - cron: "0 6 * * *"
+  workflow_dispatch: # allows you to run manually for testing
+
+jobs:
+  call-functions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call pull_nba_games
+        run: curl -X GET https://deqmlxmmruiuitwpiyud.supabase.co/functions/v1/pull_nba_games
+
+      - name: Call pull_fantasy_stats
+        run: curl -X GET https://deqmlxmmruiuitwpiyud.supabase.co/functions/v1/pull_fantasy_stats
